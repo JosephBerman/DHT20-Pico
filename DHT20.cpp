@@ -2,48 +2,49 @@
 
 #include "DHT20.h"
 
-int main() {
-
-
-    stdio_init_all();
-    printf("start\n");
-
-
-    i2c_init(i2c_default, 100000);
-
-    printf("i2c init pass\n");
-
-
-    DHT20 sensor = DHT20(8,9);
-    printf("created sensor\n");
-
-    sensor.intializeRegisters();
-    printf("init registers\n");
-    sleep_ms(100);
-    while(!sensor.isReady()){
-
-        printf("sensor is not ready waiting 50ms");
-        sleep_ms(50);
-    }
-
-    DHT_Data data;
-
-    while(true) {
-        sensor.getData(data);
-        printf("tempature: %f , humidity: %f\n", data.tempature, data.humidity);
-        sleep_ms(1000);
-    }
-    printf("Done.\n");
-
-
-    return 0;
-
-}
+//int main() {
+//
+//
+//    stdio_init_all();
+//    printf("start\n");
+//
+//
+//    i2c_init(i2c_default, 100000);
+//
+//    printf("i2c init pass\n");
+//
+//
+//    DHT20 sensor = DHT20(8,9);
+//    printf("created sensor\n");
+//
+//    sensor.intializeRegisters();
+//    printf("init registers\n");
+//    sleep_ms(100);
+//    while(!sensor.isReady()){
+//
+//        printf("sensor is not ready waiting 50ms");
+//        sleep_ms(50);
+//    }
+//
+//    DHT_Data data;
+//
+//    while(true) {
+//        sensor.getData(data);
+//        printf("tempature: %f , humidity: %f\n", data.tempature, data.humidity);
+//        sleep_ms(1000);
+//    }
+//    printf("Done.\n");
+//
+//
+//    return 0;
+//
+//}
 
 void DHT20::getData(DHT_Data &data) {
-    uint8_t outBuf[3]=  {0xAC, 0x33, 0x00};
+    uint8_t outBuf[3] = {0xAC, 0x33, 0x00};
 
     i2c_write_blocking(i2c_default,_I2CAddress ,outBuf, 3, false);
+
 
     sleep_ms(50);
 
@@ -71,6 +72,8 @@ bool DHT20::isReady() {
 
         return true;
     }
+    printf("buff[0]: %d", buf[0]);
+    sleep_ms(100);
     return false;
 }
 
